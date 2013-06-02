@@ -7,6 +7,7 @@ Remote (RF433) spoofer
 const byte RF_TX_VCC = 5;
 const byte RF_TX_SIG = 4;
 const byte RF_TX_GND = 3;
+const byte LED = 13;
 
 /* Time constants */
 const unsigned long H_TIME = 2080; // Header delay (microseconds)
@@ -36,7 +37,7 @@ inline void send_header(void) {
  */
 inline void send_footer(void) {
   SIG_LOW();
-  delayMicroseconds(H_TIME * 10);
+  delayMicroseconds(H_TIME);
 }
 
 /**
@@ -66,6 +67,7 @@ void setup() {
   pinMode(RF_TX_VCC, OUTPUT);
   pinMode(RF_TX_SIG, OUTPUT);
   pinMode(RF_TX_GND, OUTPUT);
+  pinMode(LED, OUTPUT);
 
   /* Fast powerring tips */
   digitalWrite(RF_TX_VCC, HIGH);
@@ -81,7 +83,7 @@ void setup() {
 void loop(){
   Serial.println("Send ON command");
   send_header();
-  for(byte i = 0; i < sizeof(on); ++i) {
+  for(byte i = 0; i < (sizeof(on)/sizeof(int)); ++i) {
 	  // Si le bit est à "0" logique
 	  if(on[i] == 0)
             send_zero();
@@ -89,10 +91,10 @@ void loop(){
             send_one();
     }
    send_footer();
-   
+   delayMicroseconds(5000);
    Serial.println("Send OFF command");
    send_header();
-  for(byte i = 0; i < sizeof(off); ++i) {
+   for(byte i = 0; i < (sizeof(off)/sizeof(int)); ++i) {
 	  // Si le bit est à "0" logique
 	  if(off[i] == 0)
             send_zero();
@@ -100,6 +102,6 @@ void loop(){
             send_one();
     }
    send_footer();
-   delay(2000);
+   delayMicroseconds(5000);
 }
 
