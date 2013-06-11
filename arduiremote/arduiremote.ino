@@ -1,6 +1,7 @@
 /*
 Remote (RF433) spoofer
 2013 - Alexandre Dubois
+Arduino Uno R3 version (ATmega328P-PU)
 */
 
 /* Transmitter pinmap */
