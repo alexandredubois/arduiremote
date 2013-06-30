@@ -69,26 +69,32 @@ void setup() {
 
 
 void loop(){
-  send_header();
-  for(byte i = 0; i < (sizeof(on)/sizeof(int)); ++i) {
-	  // Si le bit est à "0" logique
-	  if(on[i] == 0)
-            send_zero();
-          else
-            send_one();
-    }
-   send_footer();
-   delayMicroseconds(5000);
-
-   send_header();
-   for(byte i = 0; i < (sizeof(off)/sizeof(int)); ++i) {
-	  // Si le bit est à "0" logique
-	  if(off[i] == 0)
-            send_zero();
-          else
-            send_one();
-    }
-   send_footer();
-   delayMicroseconds(5000);
+  for(byte j = 0; j < 10; ++j){
+    //Send On
+    send_header();
+    for(byte i = 0; i < (sizeof(on)/sizeof(int)); ++i) {
+  	  // Si le bit est à "0" logique
+  	  if(on[i] == 0)
+              send_zero();
+            else
+              send_one();
+      }
+     send_footer();
+     delay(0023);
+  
+     //Send Off
+     send_header();
+     for(byte i = 0; i < (sizeof(off)/sizeof(int)); ++i) {
+  	  // Si le bit est à "0" logique
+  	  if(off[i] == 0)
+              send_zero();
+            else
+              send_one();
+      }
+     send_footer();
+     delay(0023);
+  }
+  //To prevent flooding
+  delay(10000);
 }
 
